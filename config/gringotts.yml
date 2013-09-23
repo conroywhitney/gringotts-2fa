@@ -1,0 +1,4 @@
+development:
+  endpoint: localhost:3000
+  account: testing123
+  secret: test_sekret

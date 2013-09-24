@@ -7,6 +7,10 @@ describe Gringotts::Request do
     @request = Gringotts::Request.new
   end
   
+  it "should...make a base URL..." do
+    @request.base_url.should == "http://localhost:3000/v0/testing123"
+  end
+  
   it "should use HTTPS protocol in production" do
     ENV["RACK_ENV"] = "production"
     @request.protocol.should == "https"

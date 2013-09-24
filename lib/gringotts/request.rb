@@ -5,7 +5,7 @@ module Gringotts
     end
     
     def base_url
-      return "#{self.protocol}://#{Gringotts.config.endpoint}/#{Gringotts.config.api_version}/#{Gringotts.config.account}"
+      return "#{self.protocol}://#{Gringotts.config.endpoint}/v#{Gringotts.config.api_version}/#{Gringotts.config.account}"
     end
     
     def protocol

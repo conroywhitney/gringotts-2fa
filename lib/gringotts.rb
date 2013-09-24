@@ -12,7 +12,8 @@ module Gringotts
   attr_accessor :config
   
   def self.config(filename = "gringotts.yml")
-    return Gringotts::Config.new(filename)
+    @config = Gringotts::Config.new(filename) if @config.nil?
+    return @config
   end
   
   def authorization_javascript_url

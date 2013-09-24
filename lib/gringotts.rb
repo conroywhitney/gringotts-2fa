@@ -16,20 +16,10 @@ module Gringotts
     return @config
   end
   
-  def authorization_javascript_url
+  def authorization_javascript_url    
     return "" if @gringotts_identity.nil?
-    
-    # basic request URL for the JS we are going to load
-    js_url = "#{Gringotts.base_url}/auth/#{@gringotts_identity}.js?"
-    
-    # add additional security / informational params to the request
-    js_url += {
-      :timestamp => Time.now.to_i,
-      :nonce => rand(999999999),
-    }.to_query
-    
-    # last but not least, sign the query using our secret key so the server knows it's from us
-    js_url += "&sig=" + sign(js_url)
+    @request = Request.new("/auth/#{@gringotts_identity}.js")
+    return @request.secure_signed_url
   end
   
   def verified?(session)

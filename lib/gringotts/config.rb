@@ -13,35 +13,28 @@ module Gringotts
       :secret => nil
     }
     
-    SESSION_KEY_EXPIRATION   = :gringotts_expiration
-    SESSION_KEY_VERIFICATION = :gringotts_verification
     ROUTE_VERIFY = '/authentication/verify'
     
     def initialize(filename = "gringotts.yml")          
       begin
         if config_file_exists?
-          env = ENV["RACK_ENV"] || ENV["RAILS_ENV"] || "development"
-          config = load_config_file(filename)[env]
+          config = load_config_file(filename)[Gringotts::Config.env]
           if Hash === config
             config = config.inject({}) { |h,kv| h[kv.first.to_sym] = kv.last ; h }
           else
-            raise "Config file (#{config_file_root}/#{filename}) is either not correct YAML or is lacking environment [#{env}]. Aborting."
+            raise "Config file (#{config_file_root}/#{filename}) is either not correct YAML or is lacking environment [#{Gringotts::Config.env}]. Aborting."
           end
         end
       rescue Errno::ENOENT => e
         raise "Config file (#{config_file_root}/#{filename}) does not exist. Aborting."
       end
 
-      @options = DEFAULTS.merge(config)
+      options = DEFAULTS.merge(config)
 
-      @endpoint = @options[:endpoint]
-      @api_version = @options[:api_version]
-      @account = @options[:account]
-      @secret = @options[:secret]
-    end
-    
-    def base_url
-      return "https://#{endpoint}/#{version}/#{account_token}"
+      @endpoint    = options[:endpoint]
+      @api_version = options[:api_version]
+      @account     = options[:account]
+      @secret      = options[:secret]
     end
     
     def config_file_root
@@ -54,6 +47,11 @@ module Gringotts
 
     def load_config_file(basename = "gringotts.yml")
       YAML.load(ERB.new(File.read(config_file_root + basename)).result)
+    end
+    
+    # needs to be static because otherwise we try to read the gringotts.yml config file ! !!!
+    def self.env
+      return ENV["RACK_ENV"] || ENV["RAILS_ENV"] || "development"
     end
     
   end # Config

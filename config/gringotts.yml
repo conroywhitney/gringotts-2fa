@@ -1,4 +1,20 @@
-development:
+development: &default
   endpoint: localhost:3000
   account: testing123
   secret: test_sekret
+  
+test: &test
+  <<: *default
+  
+hogwartz: &hogwartz
+  <<: *default
+  
+pivotdrive: &pivotdrive
+  <<: *default
+  
+production:
+  endpoint: iwish.iwasa.wizard
+  account: harrypotter
+  secret: zap!
+  
+ 

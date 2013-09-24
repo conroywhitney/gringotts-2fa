@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'gringotts'
 
 describe Gringotts::Config do
@@ -8,9 +9,8 @@ describe Gringotts::Config do
   end
   
   it "bombs for a badly formed YML file" do
-    env = ENV["RACK_ENV"] || ENV["RAILS_ENV"] || "development"
     filename = "badform.yml"
-    expect { Gringotts.config(filename) }.to raise_error("Config file (config/#{filename}) is either not correct YAML or is lacking environment [#{env}]. Aborting.")
+    expect { Gringotts.config(filename) }.to raise_error("Config file (config/#{filename}) is either not correct YAML or is lacking environment [#{Gringotts::Config.env}]. Aborting.")
   end
   
   it "can load existing, correctly-formed gringotts.yml without bombing" do
@@ -27,6 +27,20 @@ describe Gringotts::Config do
   
   it "correctly loads secret" do
     Gringotts.config.secret.should == "test_sekret"
+  end
+  
+  it "determines env based on RAILS_ENV" do
+    ENV["RAILS_ENV"] = "hogwartz"
+    Gringotts::Config.env.should == "hogwartz"
+  end
+  
+  it "determines env based on RACK_ENV" do
+    ENV["RACK_ENV"] = "pivotdrive"
+    Gringotts::Config.env.should == "pivotdrive"
+  end
+  
+  it "defaults env to development" do
+    Gringotts::Config.env.should == "development"
   end
 
 end

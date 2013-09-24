@@ -5,6 +5,7 @@ require 'gringotts/config'
 require 'gringotts/utils'
 require 'gringotts/encryption'
 require 'gringotts/session'
+require 'gringotts/request'
 
 module Gringotts
   

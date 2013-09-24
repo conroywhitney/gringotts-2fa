@@ -1,18 +1,24 @@
+require "yaml"
+
 require "gringotts/version"
+require 'gringotts/config'
+require 'gringotts/utils'
+require 'gringotts/encryption'
+require 'gringotts/session'
 
 module Gringotts
-
-  @server_url = "https://localhost:3000"
-  @private_key = "12345"
   
-  def authorization_javascript_url(identifier)
-    # incoming identifier should be unique to the application
-    # however, don't send it raw over the wire (e.g., if it's an email)
-    # this newly-encoded identifier is what the server uses to pair with the user
-    encoded_identifier = URI.encode(encrypt(identifier))
-        
+  attr_accessor :config
+  
+  def self.config(filename = "gringotts.yml")
+    return Gringotts::Config.new(filename)
+  end
+  
+  def authorization_javascript_url
+    return "" if @gringotts_identity.nil?
+    
     # basic request URL for the JS we are going to load
-    js_url = "#{@server_url}/auth/#{encoded_identifier}.js?"
+    js_url = "#{Gringotts.base_url}/auth/#{@gringotts_identity}.js?"
     
     # add additional security / informational params to the request
     js_url += {
@@ -24,14 +30,8 @@ module Gringotts
     js_url += "&sig=" + sign(js_url)
   end
   
-private
-  
-  def encrypt(something)
-    return Digest::MD5.hexdigest(identifier)
-  end
-  
-  def sign(something)  
-    return Digest::HMAC.hexdigest(js_url, @private_key, Digest::SHA1)
+  def verified?(session)
+    return Gringotts::Session.valid?(session)
   end
   
 end

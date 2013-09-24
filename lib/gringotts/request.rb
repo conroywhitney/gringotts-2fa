@@ -9,7 +9,7 @@ module Gringotts
     end
     
     def protocol
-      return (Gringotts::Config.env == "development") ? "http" : "https"
+      return ["production", "staging"].include?(Gringotts::Config.env) ? "https" : "http"
     end
 
   end

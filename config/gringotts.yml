@@ -11,10 +11,13 @@ hogwartz: &hogwartz
   
 pivotdrive: &pivotdrive
   <<: *default
-  
-production:
+   
+production: &production
   endpoint: iwish.iwasa.wizard
   account: harrypotter
   secret: zap!
+  
+staging: &staging
+  <<: *production
   
  

@@ -16,14 +16,18 @@ module Gringotts
     return @config
   end
   
-  def authorization_javascript_url    
+  def self.authorization_javascript_url    
     return "" if @gringotts_identity.nil?
     @request = Request.new("/auth/#{@gringotts_identity}.js")
     return @request.secure_signed_url
   end
   
-  def verified?(session)
+  def self.verified?(session)
     return Gringotts::Session.valid?(session)
+  end
+  
+  def self.identity(object_id)
+    return Digest::HMAC.hexdigest(object_id, Gringotts.config.secret, Digest::SHA1)
   end
   
 end

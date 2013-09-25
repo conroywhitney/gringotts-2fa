@@ -5,15 +5,14 @@ module Gringotts
       Gringotts.config.load_path = ::Rails.root + Gringotts.config.load_path
       Gringotts.config.logger  ||= ::Rails.logger
 
-      # Do this at the very end of initialization, allowing you to change
-      # connection adapter, turn collection on/off, etc.
+      # Do this at the very end of initialization
       ::Rails.configuration.after_initialize do
         Gringotts.config.load!
       end
     end
     
     # The use_gringotts method will setup the controller to allow authentication of the current user.
-    module UseGringotts
+    module GringottsProtego
       # Defines the gringotts_identity method and the set_identity_context filter.
       #
       # Call with the name of a method that returns an object whose identity
@@ -37,7 +36,7 @@ module Gringotts
             # that way we never send a plain-text indicator of which user we're authenticating
             # note: this identifier needs to be consistent for each user
             # it's what the server will use to identify who we are trying to authenticate
-            @gringotts_identity = Digest::HMAC.hexdigest(object.id, Gringotts.config.secret, Digest::SHA1)
+            @gringotts_identity = Gringotts.identity(object.id)
           elsif response
             # we're handling a real-life scenario, however...
             # there is no object to identify, so we will not do anything
@@ -54,7 +53,7 @@ module Gringotts
       
       def gringotts_colloportus!
         # can only protect if we know who to protect!
-        return if gringotts_identity.nil?
+        return if @gringotts_identity.nil?
         
         # protection lies in two session variables
         # 1) tells us how long the protection lasts (expiration)

@@ -4,7 +4,7 @@ require "gringotts/version"
 require 'gringotts/config'
 require 'gringotts/utils'
 require 'gringotts/encryption'
-require 'gringotts/session'
+require 'gringotts/persistence'
 require 'gringotts/request'
 
 module Gringotts

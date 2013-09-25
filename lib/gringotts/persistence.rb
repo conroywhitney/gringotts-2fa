@@ -1,6 +1,6 @@
 module Gringotts
   
-  class Session
+  class Persistence
     
     EXPIRATION = :gringotts_expiration
     SIGNATURE  = :gringotts_signature
@@ -25,14 +25,14 @@ module Gringotts
     
     def valid?
       # check to make sure that the variables in the session are actually set by us
-      return !@signature.nil? && (@signature == Gringotts::Session.sign({
+      return !@signature.nil? && (@signature == Gringotts::Persistence.sign({
         EXPIRATION => @expiration
       }))
     end
     
     def self.signed_session(session)
       return session.merge({
-        SIGNATURE => Session.sign(session)
+        SIGNATURE => Gringotts::Persistence.sign(session)
       })
     end
     

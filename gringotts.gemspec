@@ -4,12 +4,12 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'gringotts/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "gringotts"
+  spec.name          = "gringotts-2fa"
   spec.version       = Gringotts::VERSION
   spec.authors       = ["Conroy Whitney"]
   spec.email         = ["conroy.whitney@gmail.com"]
   spec.description   = %q{Easy-peasy 2-Factor Authentication}
-  spec.summary       = %q{Integrates with a secure server running Gringotts 2FA}
+  spec.summary       = %q{Integrates with an existing rails application to add a 2fa layer}
   spec.homepage      = ""
   spec.license       = "MIT"
 

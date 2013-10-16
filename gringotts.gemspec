@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'gringotts/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "gringotts-2fa"
+  spec.name          = "gringotts"
   spec.version       = Gringotts::VERSION
   spec.authors       = ["Conroy Whitney"]
   spec.email         = ["conroy.whitney@gmail.com"]

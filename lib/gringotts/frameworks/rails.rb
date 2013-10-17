@@ -7,6 +7,7 @@ module Gringotts
 
       # Do this at the very end of initialization
       ::Rails.configuration.after_initialize do
+        puts "ZOMG!!!!!"
         Gringotts.config.load!
       end
     end
@@ -64,7 +65,7 @@ module Gringotts
         end
       end        
       
-      protected :gringotts_protegido, :gringotts_colloportus
+      protected :gringotts_protego, :gringotts_colloportus!
       
     end # UseGringotts
   end # Rails

@@ -6,6 +6,7 @@ require 'gringotts/utils'
 require 'gringotts/encryption'
 require 'gringotts/persistence'
 require 'gringotts/request'
+require "gringotts/frameworks"
 
 module Gringotts
   
@@ -17,7 +18,7 @@ module Gringotts
   end
   
   def self.authorization_javascript_url    
-    return "" if @gringotts_identity.nil?
+    return "no gringotts" if @gringotts_identity.nil?
     @request = Request.new("/auth/#{@gringotts_identity}.js")
     return @request.secure_signed_url
   end

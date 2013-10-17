@@ -29,7 +29,7 @@ module Gringotts
         raise "Config file (#{config_file_root}/#{filename}) does not exist. Aborting."
       end
 
-      options = DEFAULTS.merge(config)
+      options = DEFAULTS#.merge(config)
 
       @endpoint    = options[:endpoint]
       @api_version = options[:api_version]

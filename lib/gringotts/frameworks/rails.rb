@@ -2,13 +2,9 @@
 module Gringotts
   module Rails #:nodoc:
     def self.load!
-      Gringotts.config.load_path = ::Rails.root + Gringotts.config.load_path
-      Gringotts.config.logger  ||= ::Rails.logger
-
       # Do this at the very end of initialization
       ::Rails.configuration.after_initialize do
-        puts "ZOMG!!!!!"
-        Gringotts.config.load!
+        # do ... some things ...
       end
     end
     
@@ -70,3 +66,12 @@ module Gringotts
     end # UseGringotts
   end # Rails
 end # Gringotts
+
+
+# Enhance ActionController with gringotts_protego
+if defined?(ActionController)
+  # Include in controller, add view helper methods.
+  ActionController::Base.class_eval do
+    extend Gringotts::Rails::GringottsProtego
+  end
+end
